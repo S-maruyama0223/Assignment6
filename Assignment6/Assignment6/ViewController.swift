@@ -3,17 +3,6 @@
 //  Assignment6
 //
 //  Created by 丸山翔太郎 on 2020/10/30.
-//
-
-
-/*
- 
- 1.乱数を生成して保持する
- 2.sliderの値を整数値に丸める
- 3.sliderの値と乱数を比較する
- 4.結果を表示する
- 
- */
 
 
 import UIKit
@@ -31,7 +20,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func tapJudgeButton(_ sender: Any){
-        //結果表示時に一回呼ばれればいいのでtapJudgeButton内でネスト
+        //判定処理は他から呼ばれる必要がないのでネスト
         func judge() ->String{
             if(Int(slider.value) == randomNum){
                 return "正解!\nあなたの値:\(Int(slider.value))"
