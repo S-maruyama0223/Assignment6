@@ -5,15 +5,52 @@
 //  Created by 丸山翔太郎 on 2020/10/30.
 //
 
+
+/*
+ 
+ 1.乱数を生成して保持する
+ 2.sliderの値を整数値に丸める
+ 3.sliderの値と乱数を比較する
+ 4.結果を表示する
+ 
+ */
+
+
 import UIKit
 
 class ViewController: UIViewController {
-
+    
+    @IBOutlet weak var slider: UISlider!
+    @IBOutlet weak var randomNumLabel: UILabel!
+    private var randomNum:Int = 0
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        slider.maximumValue = 100
+        resetGame()
     }
-
+    
+    @IBAction func tapJudgeButton(_ sender: Any){
+        //結果表示時に一回呼ばれればいいのでtapJudgeButton内でネスト
+        func judge() ->String{
+            if(Int(slider.value) == randomNum){
+                return "正解!\nあなたの値:\(Int(slider.value))"
+            }else{
+                return "残念!\nあなたの値:\(Int(slider.value))"
+            }
+        }
+        let dialog = UIAlertController(title: "結果", message: judge(), preferredStyle: .alert)
+        dialog.addAction(UIAlertAction(title: "再挑戦",
+                                       style: .default,
+                                       handler: {(alert: UIAlertAction!) in self.resetGame()}))
+        self.present(dialog, animated: true, completion: nil)
+    }
+    
+    private func resetGame(){
+        slider.value = 50
+        randomNum = Int.random(in: 0...100)
+        randomNumLabel.text = String(randomNum)
+    }
 
 }
 
