@@ -8,38 +8,44 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     @IBOutlet weak var slider: UISlider!
     @IBOutlet weak var randomNumLabel: UILabel!
     private var randomNum:Int = 0
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         slider.maximumValue = 100
         resetGame()
     }
-    
+
     @IBAction func tapJudgeButton(_ sender: Any){
         //判定処理は他から呼ばれる必要がないのでネスト
-        func judge() ->String{
-            if(Int(slider.value) == randomNum){
-                return "正解!\nあなたの値:\(Int(slider.value))"
-            }else{
-                return "残念!\nあなたの値:\(Int(slider.value))"
-            }
+//        func judge() ->String{
+//            if(Int(slider.value) == randomNum){
+//                return "正解!\nあなたの値:\(Int(slider.value))"
+//            }else{
+//                return "残念!\nあなたの値:\(Int(slider.value))"
+//            }
+//        }
+
+        // 一案として、より具体的な名前を付けてみました
+        func makeResultMessage() -> String {
+            let isCorrect = Int(slider.value) == randomNum
+            let firstLine = isCorrect ? "正解!" : "残念!"
+            return "\(firstLine)\nあなたの値:\(Int(slider.value))"
         }
-        let dialog = UIAlertController(title: "結果", message: judge(), preferredStyle: .alert)
+
+        let dialog = UIAlertController(title: "結果", message: makeResultMessage(), preferredStyle: .alert)
         dialog.addAction(UIAlertAction(title: "再挑戦",
                                        style: .default,
                                        handler: {(alert: UIAlertAction!) in self.resetGame()}))
         self.present(dialog, animated: true, completion: nil)
     }
-    
+
     private func resetGame(){
         slider.value = 50
         randomNum = Int.random(in: 0...100)
         randomNumLabel.text = String(randomNum)
     }
-
 }
-
